@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emotion Explorer</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 20px; background-color: #f0f8ff; }
+    .page { display: none; }
+    .active { display: block; }
+    .color-box { display: inline-block; width: 120px; height: 120px; margin: 10px; color: white; font-weight: bold; border-radius: 10px; cursor: pointer; padding-top: 40px; font-size: 16px; }
+    .orange { background-color: orange; }
+    .blue { background-color: #4682B4; }
+    .yellow { background-color: gold; color: black; }
+    .green { background-color: seagreen; }
+    .red { background-color: crimson; }
+    .purple { background-color: rebeccapurple; }
+    .pink { background-color: hotpink; color: black; }
+    .gray { background-color: gray; }
+    .emotion-description { margin-top: 20px; font-size: 18px; }
+    .emoji { font-size: 48px; }
+    .btn { padding: 10px 20px; font-size: 16px; margin-top: 20px; cursor: pointer; }
+    .input-area, .whiteboard { margin: 20px auto; width: 80%; }
+    canvas { border: 2px dashed #888; background: #fff; }
+    .tools { margin-top: 10px; }
+    .tools label { margin-right: 10px; }
+  </style>
+</head>
+<body>
+  <!-- Page 1 -->
+  <div class="page active" id="page1">
+    <h2>How do you feel today?<br>오늘 기분이 어떠세요?</h2>
+    <div class="color-box orange" onclick="showEmotion('Anxious', '불안', '😟', 'A feeling of worry, nervousness, or unease about something.\n어떤 일에 대해 걱정하거나 긴장하거나 불안한 상태입니다.')">Orange<br>주황</div>
+    <div class="color-box blue" onclick="showEmotion('Sad', '슬픔', '😢', 'Feeling sorrow or unhappiness.\n슬프거나 우울한 감정입니다.')">Blue<br>파랑</div>
+    <div class="color-box yellow" onclick="showEmotion('Happy', '행복', '😊', 'A feeling of joy, pleasure, or contentment.\n기쁨, 즐거움 또는 만족감을 느끼는 상태입니다.')">Yellow<br>노랑</div>
+    <div class="color-box green" onclick="showEmotion('Calm', '차분함', '😌', 'Feeling relaxed and peaceful.\n편안하고 평온한 상태입니다.')">Green<br>초록</div>
+    <div class="color-box red" onclick="showEmotion('Angry', '화남', '😠', 'A strong feeling of annoyance or hostility.\n짜증이나 분노의 강한 감정입니다.')">Red<br>빨강</div>
+    <div class="color-box purple" onclick="showEmotion('Confused', '혼란', '😕', 'Lack of understanding or clarity.\n이해나 명확성이 부족한 상태입니다.')">Purple<br>보라</div>
+    <div class="color-box pink" onclick="showEmotion('Loved', '사랑받음', '🥰', 'Feeling cared for and emotionally close.\n사랑과 정서적 친밀함을 느끼는 상태입니다.')">Pink<br>분홍</div>
+    <div class="color-box gray" onclick="showEmotion('Tired', '피곤함', '😴', 'Needing rest or sleep; low energy.\n휴식이나 수면이 필요한 상태입니다.')">Gray<br>회색</div>
+    <div id="emotionDisplay" class="emotion-description"></div>
+    <button class="btn" onclick="goToPage(2)">Next 다음</button>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="page" id="page2">
+    <h2>Complete the sentence<br>문장을 완성해 보세요</h2>
+    <div class="input-area">
+      <p><strong>I feel <input type="text" id="emotionInput" placeholder="emotion 감정"> when <input type="text" id="situationInput" placeholder="situation 상황">.</strong></p>
+    </div>
+    <h3>🎨 Express with an image<br>그림으로 표현해 보세요</h3>
+    <div class="whiteboard">
+      <canvas id="drawBoard" width="500" height="300"></canvas>
+      <div class="tools">
+        <label>🎨 Color 색상: <input type="color" id="colorPicker" value="#333333"></label>
+        <button onclick="toggleEraser()">🧽 Erase 지우개</button>
+        <button onclick="clearCanvas()">🗑️ Clear 전체 지우기</button>
+        <button onclick="saveDrawing()">💾 Save 그림 저장</button>
+      </div>
+      <p><em>You can draw how you feel here!<br>여기에 당신의 감정을 그려 보세요!</em></p>
+    </div>
+    <button class="btn" onclick="goToPage(3)">Next 다음</button>
+  </div>
+
+  <!-- Page 3: Tips -->
+  <div class="page" id="page3">
+    <h2>💡 Emotion Tip of the Day<br>오늘의 감정 팁</h2>
+    <p style="font-size: 18px; max-width: 700px; margin: auto;">
+      Take three deep breaths when you feel overwhelmed. Breathe in through your nose for 4 seconds, hold for 4 seconds, and breathe out slowly through your mouth for 4 seconds.<br><br>
+      감정이 벅찰 때는 깊게 세 번 숨을 쉬어 보세요. 코로 4초간 들이마시고, 4초간 멈췄다가, 입으로 천천히 4초간 내쉬세요.
+    </p>
+    <p><em>Even a small step toward calm is a powerful one.<br>작은 평온의 연습도 큰 힘이 됩니다.</em></p>
+  </div>
+
+  <script>
+    function goToPage(pageNum) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page' + pageNum).classList.add('active');
+    }
+
+    function showEmotion(en, kr, emoji, description) {
+      document.getElementById('emotionDisplay').innerHTML = `
+        <div class="emoji">${emoji}</div>
+        <strong>${en} / ${kr}</strong><br><br>
+        ${description.replace(/\n/g, '<br>')}
+      `;
+    }
+
+    const canvas = document.getElementById('drawBoard');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let erasing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => drawing = false);
+    canvas.addEventListener('mouseout', () => drawing = false);
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.fillStyle = erasing ? '#ffffff' : document.getElementById('colorPicker').value;
+      ctx.beginPath();
+      ctx.arc(e.offsetX, e.offsetY, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function toggleEraser() {
+      erasing = !erasing;
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function saveDrawing() {
+      const link = document.createElement('a');
+      link.download = 'my_emotion_drawing.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    }
+  </script>
+</body>
+</html>
