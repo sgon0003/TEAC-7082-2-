@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mental Health Continuum - Enhanced</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+    }
+    .continuum-container {
+      position: relative;
+      width: 80%;
+      max-width: 1000px;
+    }
+    .continuum-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .hotspot {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      cursor: pointer;
+    }
+    .flourishing { left: 0%; width: 25%; }
+    .going-ok { left: 25%; width: 25%; }
+    .struggling { left: 50%; width: 25%; }
+    .severely-impacting { left: 75%; width: 25%; }
+    .tooltip {
+      margin-top: 25px;
+      padding: 15px 25px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      width: 70%;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.6;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      min-height: 60px;
+    }
+    .tooltip.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mental Health Continuum</h1>
+
+  <div class="continuum-container">
+    <img src="5d8f592f-bd5b-4461-9705-72101755ce08.png" alt="Mental Health Continuum" class="continuum-image">
+
+    <div class="hotspot flourishing" 
+      onmouseover="showTooltip('Flourishing represents optimal functioning in which a child or young person feels good, functions well, relates well with others, and approaches their learning with purpose, curiosity and optimism.')"
+      onmouseout="hideTooltip()">
+    </div>
+
+    <div class="hotspot going-ok" 
+      onmouseover="showTooltip('Children and young people who are Going OK are experiencing good mental health and an absence of frequent or significant feelings of distress.')"
+      onmouseout="hideTooltip()">
+    </div>
+
+    <div class="hotspot struggling" 
+      onmouseover="showTooltip('In the Struggling range are children and young people who may come to the attention of educators due to more noticeable but generally time-limited periods of distress which have a mild impact on their behaviour, learning and relationships.')"
+      onmouseout="hideTooltip()">
+    </div>
+
+    <div class="hotspot severely-impacting" 
+      onmouseover="showTooltip('Children and young people at the far right-hand-side of the continuum have thoughts, feelings and behaviours that are distressing and have a severe impact on everyday activities.')"
+      onmouseout="hideTooltip()">
+    </div>
+  </div>
+
+  <div id="tooltip" class="tooltip"></div>
+
+  <script>
+    function showTooltip(text) {
+      const tooltip = document.getElementById('tooltip');
+      tooltip.innerText = text;
+      tooltip.classList.add('visible');
+    }
+
+    function hideTooltip() {
+      const tooltip = document.getElementById('tooltip');
+      tooltip.classList.remove('visible');
+    }
+  </script>
+
+</body>
+</html>
